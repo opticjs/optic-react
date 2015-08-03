@@ -6,7 +6,7 @@
     "build": "scripts/build",
     "prepublish": "npm run build"
   },
-  "dependencies": {
+  "peerDependencies": {
     "optic": "opticjs/optic#master",
     "react": "^0.13.3"
   },
