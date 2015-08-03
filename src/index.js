@@ -9,7 +9,7 @@ export function createContainer(ComponentClass, options) {
     componentWillMount() {
       this._params = options.initialParams && options.initialParams() || {};
       this._submitQueries();
-    },
+    }
 
     _submitQueries() {
       var queries = options.queries();
@@ -32,12 +32,12 @@ export function createContainer(ComponentClass, options) {
           });
         }
       });
-    },
+    }
 
     _newParams(newParams = {}) {
       Object.assign(this._params, newParams);
       this._submitQueries();
-    },
+    }
 
     render() {
       var queries = options.queries();
