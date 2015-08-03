@@ -12,7 +12,7 @@ export function createContainer(ComponentClass, options) {
     }
 
     _submitQueries() {
-      var queries = options.queries();
+      var queries = options.queries(this._params);
       Object.keys(queries).forEach(name => {
         var query = queries[name];
 
@@ -40,7 +40,6 @@ export function createContainer(ComponentClass, options) {
     }
 
     render() {
-      var queries = options.queries();
       var callbacks = options.callbacks && options.callbacks(this._newParams) || {};
       var props = Object.assign({}, this.props, this.state, callbacks);
 
