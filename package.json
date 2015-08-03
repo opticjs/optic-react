@@ -1,8 +1,16 @@
 {
   "name": "optic-react",
   "version": "0.0.10",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "scripts/build",
+    "prepublish": "npm run build"
+  },
   "dependencies": {
     "optic": "opticjs/optic#master",
     "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel": "^5.8.20"
   }
 }
