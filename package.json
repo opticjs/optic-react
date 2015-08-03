@@ -1,0 +1,8 @@
+{
+  "name": "optic-react",
+  "version": "0.0.10",
+  "dependencies": {
+    "optic": "opticjs/optic#master",
+    "react": "^0.13.3"
+  }
+}
