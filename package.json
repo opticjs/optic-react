@@ -7,10 +7,13 @@
     "prepublish": "npm run build"
   },
   "peerDependencies": {
-    "optic": "opticjs/optic#master",
-    "react": "^0.13.3"
+    "optic": "0.x",
+    "react": "0.x"
   },
   "devDependencies": {
     "babel": "^5.8.20"
+  },
+  "dependencies": {
+    "babel-runtime": "^5.8.20"
   }
 }

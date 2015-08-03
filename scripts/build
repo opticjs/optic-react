@@ -1,2 +1,2 @@
 #!/bin/sh
-`npm bin`/babel src --out-dir lib
+`npm bin`/babel src --optional runtime --out-dir lib
