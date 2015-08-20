@@ -1,6 +1,6 @@
 # Optic React
 
-The official React binding for Optic. It provides declarative data fetching for React components. In this respect it was heavily influenced by Facebook's Relay project. However, in other respects it's quite different. Most notably because it's designed to work with arbitrary back-ends (so there's no dependency on GraphQL). Optic works with REST out of the box, but it can be configured to use a custom adapter if your API is based on WebSockets, JSONP, etc.
+The official React binding for Optic. It provides declarative data fetching for React components. In this respect it was heavily influenced by Facebook's Relay project but otherwise it's pretty different. Most notably because it's designed to work with arbitrary back-ends (so there's no dependency on GraphQL). Optic works with REST out of the box, but it can be configured to use a custom adapter if your API is based on WebSockets, JSONP, etc.
 
 ## Features
 
