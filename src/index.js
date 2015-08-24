@@ -18,17 +18,14 @@ export function createContainer(ComponentClass, options) {
 
         if (query instanceof Optic.Query) {
           query.submit(response => {
-            if (response.status !== -1) {
-              this.setState({
-                [name]: response
-              });
-            }
+            this.setState({
+              [name]: response
+            });
           }, provisionalResponse => {
-            if (provisionalResponse.status !== -1) {
-              this.setState({
-                [name]: provisionalResponse
-              });
-            }
+            console.log('provisional response');
+            this.setState({
+              [name]: provisionalResponse
+            });
           });
         } else {
           this.setState({
