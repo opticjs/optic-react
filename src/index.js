@@ -22,7 +22,6 @@ export function createContainer(ComponentClass, options) {
               [name]: response
             });
           }, provisionalResponse => {
-            console.log('provisional response');
             this.setState({
               [name]: provisionalResponse
             });
