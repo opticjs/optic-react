@@ -15,12 +15,10 @@ export function createContainer(ComponentClass, options) {
 
         if (query instanceof Optic.Query) {
           query.submit(finalResponse => {
-            console.log('final response', finalResponse && finalResponse.status);
             this.setState({
               [name]: finalResponse
             });
           }, response => {
-            console.log('possibly provisional response', response && response.status);
             this.setState({
               [name]: response
             });
