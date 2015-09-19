@@ -12,7 +12,6 @@ export function createContainer(ComponentClass, options) {
       var queries = options.queries(this._params);
       Object.keys(queries).forEach(name => {
         var query = queries[name];
-
         if (query instanceof Optic.Query) {
           query.submit(finalResponse => {
             this.setState({
