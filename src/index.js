@@ -2,9 +2,6 @@ var Optic = require('optic'),
     React = require('react');
 
 export function createContainer(ComponentClass, options) {
-  console.log('options: ');
-  console.log(options);
-
   return class OpticContainer extends React.Component {
     componentWillMount() {
       this._params = options.initialParams && options.initialParams() || {};
