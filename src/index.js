@@ -52,7 +52,7 @@ export function createContainer(ComponentClass, options) {
 
     render() {
       var callbacks = options.callbacks &&
-          options.callbacks((...args) => this._newParams(...args)) || {};
+          options.callbacks(this._params, (...args) => this._newParams(...args)) || {};
 
       var props = Object.assign({}, this.props || {}, this.state || {}, callbacks);
 
