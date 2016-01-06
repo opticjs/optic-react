@@ -11,25 +11,38 @@ export function createContainer(ComponentClass, options) {
     _submitQueries() {
       var queries = options.queries(this._params);
       Object.keys(queries).forEach(name => {
-        var query = queries[name];
-        if (query instanceof Optic.Query) {
-          query.onQueryCacheInvalidate(
-              new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate));
-          query.submit(finalResponse => {
-            this.setState({
-              [name]: finalResponse
-            });
-          }, response => {
-            this.setState({
-              [name]: response
-            });
-          });
-        } else {
-          this.setState({
-            [name]: query
-          });
-        }
+        this._submitQuery(queries[name]);
       });
+    }
+
+    _submitUpdate(name) {
+      var updates = options.updates ? options.updates(this._params) : {};
+      var update = updates[name];
+      if (update) {
+        this._submitQuery(update);
+      } else {
+        throw new Error('An update query by the name of "' + name + '" does not exist.');
+      }
+    }
+
+    _submitQuery(query) {
+      if (query instanceof Optic.Query) {
+        query.onQueryCacheInvalidate(
+            new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate));
+        query.submit(finalResponse => {
+          this.setState({
+            [name]: finalResponse
+          });
+        }, response => {
+          this.setState({
+            [name]: response
+          });
+        });
+      } else {
+        this.setState({
+          [name]: query
+        });
+      }
     }
 
     _newParams(newParams = {}) {
@@ -41,11 +54,10 @@ export function createContainer(ComponentClass, options) {
       var callbacks = options.callbacks &&
           options.callbacks((...args) => this._newParams(...args)) || {};
 
-      var updates = options.updates ? options.updates(this._params) : {};
-      var props = Object.assign({}, this.props || {}, this.state || {}, callbacks, updates);
+      var props = Object.assign({}, this.props || {}, this.state || {}, callbacks);
 
       return (
-        <ComponentClass {...props} />
+        <ComponentClass {...props} submitUpdate={this._submitUpdate.bind(this)} />
       );
     }
   }
