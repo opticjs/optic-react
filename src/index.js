@@ -13,6 +13,8 @@ export function createContainer(ComponentClass, options) {
       Object.keys(queries).forEach(name => {
         var query = queries[name];
         if (query instanceof Optic.Query) {
+          query.onQueryCacheInvalidate(
+              new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate));
           query.submit(finalResponse => {
             this.setState({
               [name]: finalResponse
@@ -38,12 +40,12 @@ export function createContainer(ComponentClass, options) {
     render() {
       var callbacks = options.callbacks &&
           options.callbacks((...args) => this._newParams(...args)) || {};
-      var props = Object.assign({}, this.props, this.state, callbacks);
+
+      var updates = options.updates ? options.updates(this._params) : {};
+      var props = Object.assign({}, this.props || {}, this.state || {}, callbacks, updates);
 
       return (
-        <ComponentClass {...props}>
-          {this.props.children}
-        </ComponentClass>
+        <ComponentClass {...props} />
       );
     }
   }
