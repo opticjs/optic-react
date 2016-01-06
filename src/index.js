@@ -28,7 +28,7 @@ export function createContainer(ComponentClass, options) {
     _submitQuery(query) {
       if (query instanceof Optic.Query) {
         query.onQueryCacheInvalidate(
-            new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate));
+            new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate.bind(this)));
         query.submit(finalResponse => {
           this.setState({
             [name]: finalResponse
