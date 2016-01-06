@@ -11,7 +11,7 @@ export function createContainer(ComponentClass, options) {
     _submitQueries() {
       var queries = options.queries && options.queries(this._params) || {};
       Object.keys(queries).forEach(name => {
-        this._submitQuery(queries[name]);
+        this._submitQuery(name, queries[name]);
       });
     }
 
@@ -19,13 +19,13 @@ export function createContainer(ComponentClass, options) {
       var updates = options.updates ? options.updates(this._params) : {};
       var update = updates[name];
       if (update) {
-        this._submitQuery(update);
+        this._submitQuery(name, update);
       } else {
         throw new Error('An update query by the name of "' + name + '" does not exist.');
       }
     }
 
-    _submitQuery(query) {
+    _submitQuery(name, query) {
       if (query instanceof Optic.Query) {
         query.onQueryCacheInvalidate(
             new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate.bind(this)));
