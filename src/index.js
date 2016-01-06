@@ -9,7 +9,7 @@ export function createContainer(ComponentClass, options) {
     }
 
     _submitQueries() {
-      var queries = options.queries(this._params);
+      var queries = options.queries && options.queries(this._params) || {};
       Object.keys(queries).forEach(name => {
         this._submitQuery(queries[name]);
       });
