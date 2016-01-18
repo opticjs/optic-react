@@ -4,19 +4,19 @@ var Optic = require('optic'),
 export function createContainer(ComponentClass, options) {
   return class OpticContainer extends React.Component {
     componentWillMount() {
-      this._params = options.initialParams && options.initialParams() || {};
+      this._params = options.initialParams && options.initialParams(this.props) || {};
       this._submitQueries();
     }
 
     _submitQueries() {
-      var queries = options.queries && options.queries(this._params) || {};
+      var queries = options.queries && options.queries(this._params, this.props) || {};
       Object.keys(queries).forEach(name => {
         this._submitQuery(name, queries[name]);
       });
     }
 
     _submitUpdate(name) {
-      var updates = options.updates ? options.updates(this._params) : {};
+      var updates = options.updates ? options.updates(this._params, this.props) : {};
       var update = updates[name];
       if (update) {
         this._submitQuery(name, update);
@@ -52,7 +52,7 @@ export function createContainer(ComponentClass, options) {
 
     render() {
       var callbacks = options.callbacks &&
-          options.callbacks(this._params, (...args) => this._newParams(...args)) || {};
+          options.callbacks(this._params, (...args) => this._newParams(...args), this.props) || {};
 
       var props = Object.assign({}, this.props || {}, this.state || {}, callbacks);
 
