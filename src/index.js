@@ -57,7 +57,7 @@ export function createContainer(ComponentClass, options) {
             });
           }
         }, response => {
-          if (!this._unmountStarted) {
+          if (!this._unmountStarted && response.isProvisional()) {
             this.setState({
               [name]: response
             });
