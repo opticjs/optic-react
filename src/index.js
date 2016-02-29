@@ -45,24 +45,30 @@ export function createContainer(ComponentClass, options) {
     _submitQuery(name, query) {
       if (query instanceof Optic.Query) {
         query.onQueryCacheInvalidate(
-            new Optic.OpticObject.Source('queryCacheInvalidator', () => {
+            new Optic.OpticObject.Source('queryCacheInvalidator', () => () => {
               if (!this._unmountStarted) {
                 this.forceUpdate.bind(this);
               }
             }));
         query.submit(finalResponse => {
-          this.setState({
-            [name]: finalResponse
-          });
+          if (!this._unmountStarted) {
+            this.setState({
+              [name]: finalResponse
+            });
+          }
         }, response => {
-          this.setState({
-            [name]: response
-          });
+          if (!this._unmountStarted) {
+            this.setState({
+              [name]: response
+            });
+          }
         });
       } else {
-        this.setState({
-          [name]: query
-        });
+        if (!this._unmountStarted) {
+          this.setState({
+            [name]: query
+          });
+        }
       }
     }
 
