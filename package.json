@@ -1,6 +1,6 @@
 {
   "name": "optic-react",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "main": "lib/index.js",
   "scripts": {
     "build": "scripts/build",

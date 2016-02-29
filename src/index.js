@@ -8,6 +8,10 @@ export function createContainer(ComponentClass, options) {
       this._submitQueries();
     }
 
+    componentWillUnmount() {
+      this._unmountStarted = true;
+    }
+
     componentDidUpdate(prevProps, prevState) {
       // Submit queries if props change.
       var doUpdate = false;
@@ -41,7 +45,11 @@ export function createContainer(ComponentClass, options) {
     _submitQuery(name, query) {
       if (query instanceof Optic.Query) {
         query.onQueryCacheInvalidate(
-            new Optic.OpticObject.Source('queryCacheInvalidator', this.forceUpdate.bind(this)));
+            new Optic.OpticObject.Source('queryCacheInvalidator', () => {
+              if (!this._unmountStarted) {
+                this.forceUpdate.bind(this);
+              }
+            }));
         query.submit(finalResponse => {
           this.setState({
             [name]: finalResponse
