@@ -84,7 +84,9 @@ export function createContainer(ComponentClass, options) {
       var props = Object.assign({}, this.props || {}, this.state || {}, callbacks);
 
       return (
-        <ComponentClass {...props} submitUpdate={this._submitUpdate.bind(this)} />
+        <ComponentClass {...props}
+          submitUpdate={this._submitUpdate.bind(this)}
+          opticParams={this._params} />
       );
     }
   }
