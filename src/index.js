@@ -4,7 +4,6 @@ var Optic = require('optic'),
 export function createContainer(ComponentClass, options) {
   return class OpticContainer extends React.Component {
     componentWillMount() {
-      this.state = {};
       this._params = options.initialParams && options.initialParams(this.props) || {};
       this._submitQueries();
     }
@@ -13,15 +12,11 @@ export function createContainer(ComponentClass, options) {
       this._unmountStarted = true;
     }
 
-    /**
-     * Submit queries after every update unless it's an update that changes internal state.
-     * Should this check if the updated state field is an Optic resource? Perhaps.
-     */
     componentDidUpdate(prevProps, prevState) {
-      var doUpdate = true;
-      [...Object.keys(prevState), ...Object.keys(this.state)].forEach(k => {
-        if (prevState[k] !== this.state[k]) {
-          doUpdate = false;
+      var doUpdate = false;
+      [...Object.keys(prevProps), ...Object.keys(this.props)].forEach(k => {
+        if (prevProps[k] !== this.props[k]) {
+          doUpdate = true;
         }
       });
       if (doUpdate) {
@@ -51,7 +46,7 @@ export function createContainer(ComponentClass, options) {
         query.onQueryCacheInvalidate(
             new Optic.OpticObject.Source('queryCacheInvalidator', () => () => {
               if (!this._unmountStarted) {
-                this.forceUpdate.bind(this);
+                this._submitQueries();
               }
             }));
         query.submit(finalResponse => {
