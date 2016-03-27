@@ -32,8 +32,8 @@ export function createContainer(ComponentClass, options) {
       });
     }
 
-    _submitUpdate(name) {
-      var updates = options.updates ? options.updates(this._params, this.props) : {};
+    _submitUpdate(name, opts) {
+      var updates = options.updates ? options.updates(this._params, this.props, opts) : {};
       var update = updates[name];
       if (update) {
         this._submitQuery(name, update);
