@@ -4,16 +4,27 @@ var Optic = require('optic'),
 export function createContainer(ComponentClass, options) {
   return class OpticContainer extends React.Component {
     componentWillMount() {
+      this._getBusy();
       this._params = options.initialParams && options.initialParams(this.props) || {};
       this._submitQueries();
+    }
+
+    componentDidMount() {
+      if (this._doneGettingBusy()) {
+        this._submitQueries();
+      }
     }
 
     componentWillUnmount() {
       this._unmountStarted = true;
     }
 
+    componentWillUpdate() {
+      this._getBusy();
+    }
+
     componentDidUpdate(prevProps, prevState) {
-      var doUpdate = false;
+      var doUpdate = this._doneGettingBusy();
       [...Object.keys(prevProps), ...Object.keys(this.props)].forEach(k => {
         if (prevProps[k] !== this.props[k]) {
           doUpdate = true;
@@ -24,7 +35,28 @@ export function createContainer(ComponentClass, options) {
       }
     }
 
+    _getBusy() {
+      this._busy = true;
+    }
+
+    _doneGettingBusy() {
+      this._busy = false;
+      var wasDeferred = this._deferSubmitQueries;
+      if (this._deferSubmitQueries) {
+        this._deferSubmitQueries = false;
+      }
+      return wasDeferred;
+    }
+
     _submitQueries() {
+      if (this._busy) {
+        // setTimeout(() => {
+          // this._submitQueries();
+        // }, 0);
+        this._deferSubmitQueries = true;
+        return
+      }
+
       var queries = options.queries && options.queries(this._params, this.props) || {};
       Object.keys(queries).forEach(name => {
         this._submitQuery(name, queries[name]);
