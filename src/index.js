@@ -4,9 +4,9 @@ var Optic = require('optic'),
 export function createContainer(ComponentClass, options) {
   return class OpticContainer extends React.Component {
     componentWillMount() {
-      this._getBusy();
       this._params = options.initialParams && options.initialParams(this.props) || {};
       this._submitQueries();
+      this._getBusy();
     }
 
     componentDidMount() {
@@ -42,9 +42,7 @@ export function createContainer(ComponentClass, options) {
     _doneGettingBusy() {
       this._busy = false;
       var wasDeferred = this._deferSubmitQueries;
-      if (this._deferSubmitQueries) {
-        this._deferSubmitQueries = false;
-      }
+      this._deferSubmitQueries = false;
       return wasDeferred;
     }
 
