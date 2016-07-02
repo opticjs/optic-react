@@ -76,7 +76,7 @@ export function createContainer(ComponentClass, options) {
         query.onQueryCacheInvalidate(
             new Optic.OpticObject.Source('queryCacheInvalidator', () => () => {
               if (!this._unmountStarted) {
-                // this._submitQueries();
+                this._submitQueries();
               }
             }));
         query.submit(finalResponse => {
